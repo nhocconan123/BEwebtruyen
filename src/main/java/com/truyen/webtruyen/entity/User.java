@@ -19,6 +19,7 @@ public class User {
     private String username;
 
     @Column(nullable = false, unique = true, length = 150)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
     @Column(nullable = false, length = 255)

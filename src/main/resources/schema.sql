@@ -10,6 +10,21 @@ CREATE TABLE IF NOT EXISTS users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS email_otps (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NULL,
+    email VARCHAR(150) NOT NULL,
+    purpose ENUM('RESET_PASSWORD','CHANGE_PASSWORD') NOT NULL,
+    otp_hash VARCHAR(64) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    consumed_at DATETIME NULL,
+    attempt_count INT NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_email_otps_email_purpose_created_at (email, purpose, created_at),
+    KEY idx_email_otps_user_purpose_created_at (user_id, purpose, created_at),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS genres (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) UNIQUE NOT NULL
