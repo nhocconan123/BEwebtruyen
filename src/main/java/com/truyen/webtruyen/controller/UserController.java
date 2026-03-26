@@ -5,6 +5,7 @@ import com.truyen.webtruyen.entity.enums.UserStatus;
 import com.truyen.webtruyen.repository.TruyenRepository;
 import com.truyen.webtruyen.repository.UserRepository;
 import com.truyen.webtruyen.service.CurrentUserService;
+import com.truyen.webtruyen.util.MaskingUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,7 +53,7 @@ public class UserController {
         return Map.of(
                 "id", currentUser.getId(),
                 "username", currentUser.getUsername(),
-                "email", currentUser.getEmail(),
+                "emailMasked", MaskingUtil.maskEmail(currentUser.getEmail()),
                 "avatar", currentUser.getAvatar() == null ? "" : currentUser.getAvatar(),
                 "bio", currentUser.getBio() == null ? "" : currentUser.getBio(),
                 "role", currentUser.getRole(),
